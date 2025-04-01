@@ -2,6 +2,10 @@ package NotModified.TodoList.repository;
 
 import NotModified.TodoList.domain.Category;
 
-public interface categoryRepository {
+import java.util.List;
+
+public interface CategoryRepository {
     Category save(Category category);
+    List<Category> findAll();
 }
+
