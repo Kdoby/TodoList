@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -15,5 +17,9 @@ public class CategoryService {
     public Long saveCategory(Category category) {
         categoryRepository.save(category);
         return category.getId();
+    }
+
+    public List<Category> findCategories() {
+       return categoryRepository.findAll();
     }
 }
