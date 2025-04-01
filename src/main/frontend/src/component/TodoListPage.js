@@ -19,9 +19,6 @@ export default function TodoList() {
                             marginTop:"20px"
                     }}>
                         <TodoCategory color={"#d4f0f0"} category={"todo"}/>
-                        <TodoCategory color={"#d4f033"} category={"todo2"}/>
-                        <TodoCategory color={"#d4f099"} category={"todo3"}/>
-
                     </div>
 
                 </div>
@@ -42,10 +39,7 @@ export default function TodoList() {
                             marginTop:"20px"
                     }}>
                         <Todo title={"brush teeth"}/>
-                        <Todo title={"market"}/>
-                        <Todo title={"hello"}/>
-                        <Todo title={"todolist"}/>
-                    T</div>
+                    </div>
 
                 </div>
             </div>
