@@ -1,5 +1,6 @@
 import './App.css';
 import TodoListPage from './component/TodoListPage';
+import TimeTablePage from './component/TimeTablePage.js';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import Test from './component/Test';
@@ -24,6 +25,7 @@ function App() {
         <Test />
 
         <TodoListPage />
+        <TimeTablePage />
     </div>
     );
 }
