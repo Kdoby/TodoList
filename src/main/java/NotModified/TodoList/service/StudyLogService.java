@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -15,5 +17,9 @@ public class StudyLogService {
     public Long saveLog(StudyLog studyLog) {
         studyLogRepository.save(studyLog);
         return studyLog.getId();
+    }
+
+    public List<StudyLog> findStudyLogs() {
+        return studyLogRepository.findAll();
     }
 }
