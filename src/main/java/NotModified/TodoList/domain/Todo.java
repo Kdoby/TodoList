@@ -1,13 +1,21 @@
 package NotModified.TodoList.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
 
 @Data
 @Entity
 @Table(name = "todo")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@DynamicInsert
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

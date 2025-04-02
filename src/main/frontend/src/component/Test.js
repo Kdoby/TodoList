@@ -12,8 +12,8 @@ export default function Test(){
                 console.log("userName: " + userName + "\nnewCategoryName: " + newCategory);
 
                 const response = await axios.post('/api/categories', {
-                    newCategory,
-                    userName
+                    name: newCategory,
+                    userId: userName,
                 });
 
                 alert("success");

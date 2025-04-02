@@ -1,7 +1,11 @@
 package NotModified.TodoList.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -9,6 +13,10 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "study_log")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@DynamicInsert
 public class StudyLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
