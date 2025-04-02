@@ -13,6 +13,7 @@ public class CategoryResponseDto {
     private String name;
     private String categoryColor;
 
+    // entity 정보와 맵핑해줌 (entity -> dto 변환 과정)
     public CategoryResponseDto(Category category) {
         this.userId = category.getUserId();
         this.name = category.getName();

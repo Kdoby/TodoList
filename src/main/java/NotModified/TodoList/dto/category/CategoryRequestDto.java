@@ -13,6 +13,7 @@ public class CategoryRequestDto {
     private String name;
     private String categoryColor;
 
+    // dto -> entity
     public Category toEntity() {
         return Category.builder()
                 .userId(userId)

@@ -29,7 +29,8 @@ public class JpaCategoryRepository implements CategoryRepository {
 
     @Override
     public Optional<Category> findByUserId (String userId) {
-        Category category = em.createQuery("select c from Category c where c.user_id= :userId", Category.class)
+        Category category = em.createQuery("select c from Category c where c.userId= :userId", Category.class)
+                .setParameter("userId", userId)
                 .getSingleResult();
         return Optional.ofNullable(category);
     }
