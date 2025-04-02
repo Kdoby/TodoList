@@ -1,4 +1,3 @@
-import './App.css';
 import TodoListPage from './component/TodoListPage';
 import TimeTablePage from './component/TimeTablePage.js';
 import React, {useEffect, useState} from 'react';
