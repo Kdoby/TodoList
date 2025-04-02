@@ -18,10 +18,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public Long saveCategory(CategoryRequestDto categoryDto) {
-        categoryRepository.save(categoryDto.toEntity());
-        Category category = categoryRepository.findByUserId(categoryDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저의 카테고리를 찾을 수 없습니다."));
-
+        Category category = categoryRepository.save(categoryDto.toEntity());
         return category.getId();
     }
 

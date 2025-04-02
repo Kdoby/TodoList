@@ -22,11 +22,10 @@ public class CategoryApiController {
     @PostMapping("/categories")
     public ResponseEntity<?> createCategory(@RequestBody CategoryRequestDto request) {
         Long id = categoryService.saveCategory(request);
-        List<CategoryResponseDto> categories = categoryService.findCategories();
+
         return ResponseEntity.ok(Map.of(
                 "success", true,
-                "message", "카테고리 생성 성공",
-                "id", categories
+                "message", "카테고리 생성 성공"
         ));
     }
 
