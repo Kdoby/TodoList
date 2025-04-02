@@ -1,8 +1,7 @@
-import TodoListPage from './component/TodoListPage';
+import Test from './component/Test';
 import TimeTablePage from './component/TimeTablePage.js';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import Test from './component/Test';
 
 function App() {
     const [hello, setHello] = useState('');
@@ -22,8 +21,6 @@ function App() {
         </div>
 
         <Test />
-
-        <TodoListPage />
         <TimeTablePage />
     </div>
     );
