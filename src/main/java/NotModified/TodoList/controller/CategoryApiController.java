@@ -29,8 +29,8 @@ public class CategoryApiController {
         ));
     }
 
-    @GetMapping("/categories")
+    /*@GetMapping("/categories")
     public List<CategoryResponseDto> getAllCategories() {
         return categoryService.findCategories();
-    }
+    }*/
 }

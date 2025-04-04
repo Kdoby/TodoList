@@ -11,14 +11,14 @@ import lombok.*;
 public class CategoryRequestDto {
     private String userId;
     private String name;
-    private String categoryColor;
+    private String color;
 
     // dto -> entity
     public Category toEntity() {
         return Category.builder()
                 .userId(userId)
                 .name(name)
-                .categoryColor(categoryColor)
+                .color(color)
                 .build();
     }
 }

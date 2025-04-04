@@ -25,6 +25,9 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "category_color")
-    private String categoryColor = "#FFFFFF";
+    @Column(name = "color")
+    private String color = "#FFFFFF";
+
+    @Column(name = "is_active")
+    private Boolean isActive = true;
 }
