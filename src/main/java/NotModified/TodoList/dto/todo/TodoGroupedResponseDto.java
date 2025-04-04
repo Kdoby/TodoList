@@ -12,14 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TodoGroupedResponseDto {
-    private String categoryId;
+    private Long categoryId;
     private String categoryName;
     private String categoryColor;
     private Boolean categoryIsActive;
     private List<TodoResponseDto> todos = new ArrayList<>();
 
     public TodoGroupedResponseDto(Long categoryId, String categoryName, String categoryColor, Boolean categoryIsActive) {
-        this.categoryId = (categoryId == null ? "deleted" : String.valueOf(categoryId));
+        this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.categoryColor = categoryColor;
         this.categoryIsActive = categoryIsActive;
