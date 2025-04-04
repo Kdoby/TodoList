@@ -4,6 +4,7 @@ import NotModified.TodoList.domain.Category;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ public class JpaCategoryRepository implements CategoryRepository {
         this.em = em;
     }
 
+    // category 저장시에 is_active = true인 애들 중복체크 해줘야함!
     @Override
     public Category save(Category category) {
         em.persist(category);
@@ -28,10 +30,28 @@ public class JpaCategoryRepository implements CategoryRepository {
     }
 
     @Override
-    public Optional<Category> findByUserId (String userId) {
-        Category category = em.createQuery("select c from Category c where c.userId= :userId", Category.class)
-                .setParameter("userId", userId)
-                .getSingleResult();
+    public Optional<Category> findById(Long id) {
+        Category category = em.find(Category.class, id);
         return Optional.ofNullable(category);
+    }
+
+    // 값이 하나라도 있으면 그 중 하나를 반환
+    @Override
+    public Optional<Category> findByCategoryName(String userId, String categoryName) {
+        return em.createQuery("select c from Category c where c.userId = :userId and" +
+                " c.name = :categoryName and c.isActive = true", Category.class)
+                .setParameter("userId", userId)
+                .setParameter("categoryName", categoryName)
+                .getResultList()
+                .stream()
+                .findAny();
+    }
+
+    @Override
+    public List<Category> findByUserIdAndIsActive(String userId, boolean isActive) {
+        return em.createQuery("select c from Category c where c.userId = :userId and c.isActive = :isActive", Category.class)
+                .setParameter("userId", userId)
+                .setParameter("isActive", isActive)
+                .getResultList();
     }
 }

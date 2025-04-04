@@ -27,16 +27,13 @@ public class Todo {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-    private Category category;
-
-    @Column(name = "category_name")
-    private String categoryName;
-
     @Column(name = "is_done")
-    private Boolean is_done = false;
+    private Boolean isDone = false;
 
     @Column(name = "todo_date")
     private LocalDate todoDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    private Category category;
 }

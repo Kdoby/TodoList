@@ -17,13 +17,24 @@ import java.util.stream.Collectors;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
+    // 활성화된 카테고리 중에서 중복되는 이름이 있는지 체크
+    public void validateDuplicateCategory(CategoryRequestDto categoryDto) {
+        categoryRepository.findByCategoryName(categoryDto.getUserId(), categoryDto.getName())
+                .ifPresent(c -> {
+                    throw new IllegalStateException("이미 존재하는 카테고리 입니다.");
+                });
+    }
+
+    // 중복 체크 후 저장
     public Long saveCategory(CategoryRequestDto categoryDto) {
+        validateDuplicateCategory(categoryDto);
         Category category = categoryRepository.save(categoryDto.toEntity());
         return category.getId();
     }
 
-    public List<CategoryResponseDto> findCategories() {
-       return categoryRepository.findAll()
+    // 현재 활성화된 카테고리 목록 찾기
+    public List<CategoryResponseDto> findActiveCategories(CategoryRequestDto categoryDto) {
+       return categoryRepository.findByUserIdAndIsActive(categoryDto.getUserId(), true)
                .stream()
                .map(CategoryResponseDto::new)
                .collect(Collectors.toList());
