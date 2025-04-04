@@ -1,5 +1,6 @@
 package NotModified.TodoList.controller;
 
+import NotModified.TodoList.dto.todo.TodoCreateRequestDto;
 import NotModified.TodoList.dto.todo.TodoDateRequestDto;
 import NotModified.TodoList.dto.todo.TodoGroupedResponseDto;
 import NotModified.TodoList.service.TodoService;
@@ -18,7 +19,18 @@ public class TodoApiController {
 
     private final TodoService todoService;
 
+
     @PostMapping("/todos")
+    public ResponseEntity<?> createTodo(@RequestBody TodoCreateRequestDto request) {
+        todoService.saveTodo(request);
+
+        return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "todo 생성 성공"
+        ));
+    }
+
+    @PostMapping("/todos/list")
     public ResponseEntity<?> getTodosGroupedByDateAndCategory(@RequestBody TodoDateRequestDto request) {
         List<TodoGroupedResponseDto> todos = todoService.findDateList(request);
 
