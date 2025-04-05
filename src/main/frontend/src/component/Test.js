@@ -17,6 +17,16 @@ export default function Test(){
     const [todayDate, setDate] = useState('');
     const [newColor, setNewColor] = useState('');
 
+    const fetchTodayDate = async () => {
+        const today = new Date();
+        const formatted = today
+            .toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+            .replace(/\. /g, '-')
+            .replace('.', '');
+
+        document.getElementById("inputDate").value = formatted;
+        setDate(formatted);
+    }
 
     const fetchCategories = async () => {
         try {
@@ -61,23 +71,19 @@ export default function Test(){
         }
     }, [todayDate]);
 
-    /* 처음 화면 켰을때 */
+    // 처음 화면 켰을때, category, todo,
     useEffect(() => {
         fetchCategories();
         fetchTodos();
-
-        const today = new Date();
-        const formatted = today
-            .toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-            .replace(/\. /g, '-')
-            .replace('.', '');
-        setDate(formatted);
+        fetchTodayDate();
     }, []);
 
+    // 카테고리 추가
     const addCategory = async () => {
         try {
             console.log(userName, newCategory, newColor);
 
+            // post /api/categories
             const response = await axios.post('/api/categories', {
                 userId: userName,
                 name: newCategory,
@@ -117,22 +123,7 @@ export default function Test(){
         } catch (error) {
             alert(error.message);
         }
-        };
-
-    // today 버튼 누르면
-    const dateIsToday = async () => {
-        const today = new Date();
-        const formatted = today
-        .toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-        .replace(/\. /g, '-')
-        .replace('.', '');
-
-        // input의 값을 오늘 날짜로 바꾸기
-        document.getElementById("inputDate").value = formatted;
-
-        // setDate
-        setDate(formatted);
-    }
+    };
 
     return(
     <div>
@@ -143,7 +134,8 @@ export default function Test(){
         </div>
 
         <div>
-            date: <input id="inputDate" type="date" defaultValue={todayDate} onChange = {(e) => setDate(e.target.value)}/> <button onClick={dateIsToday}>Today</button>
+            date: <input id="inputDate" type="date" defaultValue={todayDate} onChange = {(e) => setDate(e.target.value)}/>
+            <button onClick={fetchTodayDate}>Today</button>
         </div>
 
         <div style={{
@@ -159,7 +151,7 @@ export default function Test(){
 
                 <div>
                     add category: <input type="text"  onChange={(e) => setNewCategory(e.target.value)}/>
-                    color: <input type="color" value="#FFFFFF" onChange={(e) => setNewColor(e.target.value)}></input>
+                    color: <input type="color" onChange={(e) => setNewColor(e.target.value)}></input>
                     <button onClick={addCategory}>add</button>
                 </div>
             </div>
