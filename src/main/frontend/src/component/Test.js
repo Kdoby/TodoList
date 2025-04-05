@@ -154,7 +154,7 @@ export default function Test(){
                 Category
                 </h3>
 
-                <hr />
+                <hr style={{marginTop:'28px'}} />
 
                 <TestCategoryList categories={categories} />
 
@@ -196,9 +196,7 @@ export default function Test(){
                     }}>
                         <button onClick={fetchTodayDate}
                                 style={{
-                                    height: '100%',
-                                    margin: '0px',
-                                    padding: '5px 20px'
+                                    margin: '0px'
                         }}>
                         Today
                         </button>
@@ -210,7 +208,6 @@ export default function Test(){
                            onChange = {(e) => setDate(e.target.value)}
                            style={{
                                 width: '100%',
-                                height: '100%',
                                 textAlign: 'center'
                            }}
                     />
