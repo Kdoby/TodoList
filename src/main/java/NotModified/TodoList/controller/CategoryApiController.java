@@ -5,10 +5,7 @@ import NotModified.TodoList.dto.category.CategoryResponseDto;
 import NotModified.TodoList.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -29,8 +26,8 @@ public class CategoryApiController {
         ));
     }
 
-    /*@GetMapping("/categories")
-    public List<CategoryResponseDto> getAllCategories() {
-        return categoryService.findCategories();
-    }*/
+    @GetMapping("/categories/{userId}")
+    public List<CategoryResponseDto> getAllCategories(@PathVariable("userId") String userId, @RequestParam("is_active") boolean isActive) {
+        return categoryService.findCategories(userId, isActive);
+    }
 }

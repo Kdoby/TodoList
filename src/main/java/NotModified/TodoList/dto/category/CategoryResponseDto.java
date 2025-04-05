@@ -13,6 +13,7 @@ public class CategoryResponseDto {
     private String userId;
     private String name;
     private String color;
+    private boolean isActive;
 
     // entity 정보와 맵핑해줌 (entity -> dto 변환 과정)
     public CategoryResponseDto(Category category) {
@@ -20,5 +21,6 @@ public class CategoryResponseDto {
         this.userId = category.getUserId();
         this.name = category.getName();
         this.color = category.getColor();
+        this.isActive = category.getIsActive();
     }
 }
