@@ -24,7 +24,6 @@ function App() {
 
         <br /><br />
 
-        <TimeTablePage />
     </div>
     );
 }
