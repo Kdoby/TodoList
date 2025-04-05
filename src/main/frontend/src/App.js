@@ -21,6 +21,9 @@ function App() {
         </div>
 
         <Test />
+
+        <br /><br />
+
         <TimeTablePage />
     </div>
     );
