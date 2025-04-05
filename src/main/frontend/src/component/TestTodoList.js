@@ -8,14 +8,36 @@ const TestTodoList = ({ allTodos }) => {
     return (
         <div>
             {allTodos.data.map((category) => (
-            <div key={category.categoryId}>
-                <h4>{category.categoryName}</h4>
+            <div key={category.categoryId}
+                 style={{
+                    margin: '20px 0px',
+                    fontSize:'20px'
+                 }}
+            >
+                <span className="categoryColor"
+                      style={{
+                              backgroundColor: category.categoryColor,
+                              display: 'inline-block',
+                              width: '5px',
+                              height: '30px',
+                              marginRight: '10px',
+                              verticalAlign:'middle'
+                      }}
+                ></span>
+                <span><b>{category.categoryName}</b></span>
 
-                <ul>
+                <div style={{
+                        marginLeft: '20px'
+                }}>
                 {category.todos.map((todo) => (
-                    <li key={todo.id}>{todo.title}</li>
+                    <div key={todo.id}>
+                    <input type="checkbox"
+                           style={{
+                                background: '#999999'
+                    }}/> {todo.title}
+                    </div>
                 ))}
-                </ul>
+                </div>
             </div>
             ))}
         </div>
