@@ -12,6 +12,7 @@ public class CategoryRequestDto {
     private String userId;
     private String name;
     private String color;
+    private boolean isActive;
 
     // dto -> entity
     public Category toEntity() {
@@ -19,6 +20,7 @@ public class CategoryRequestDto {
                 .userId(userId)
                 .name(name)
                 .color(color)
+                .isActive(isActive)
                 .build();
     }
 }

@@ -32,9 +32,9 @@ public class CategoryService {
         return category.getId();
     }
 
-    // 현재 활성화된 카테고리 목록 찾기
-    public List<CategoryResponseDto> findActiveCategories(CategoryRequestDto categoryDto) {
-       return categoryRepository.findByUserIdAndIsActive(categoryDto.getUserId(), true)
+    // 카테고리 목록 찾기 - 활성화 or 비활성화
+    public List<CategoryResponseDto> findCategories(String userId, boolean isActive) {
+       return categoryRepository.findByUserIdAndIsActive(userId, isActive)
                .stream()
                .map(CategoryResponseDto::new)
                .collect(Collectors.toList());
