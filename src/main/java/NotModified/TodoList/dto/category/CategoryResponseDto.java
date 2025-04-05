@@ -13,7 +13,7 @@ public class CategoryResponseDto {
     private String userId;
     private String name;
     private String color;
-    private boolean isActive;
+    private Boolean isActive;
 
     // entity 정보와 맵핑해줌 (entity -> dto 변환 과정)
     public CategoryResponseDto(Category category) {
