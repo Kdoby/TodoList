@@ -27,7 +27,7 @@ public class CategoryApiController {
     }
 
     @GetMapping("/categories/{userId}")
-    public List<CategoryResponseDto> getAllCategories(@PathVariable("userId") String userId, @RequestParam("is_active") boolean isActive) {
+    public List<CategoryResponseDto> getAllCategories(@PathVariable("userId") String userId, @RequestParam("is_active") Boolean isActive) {
         return categoryService.findCategories(userId, isActive);
     }
 }

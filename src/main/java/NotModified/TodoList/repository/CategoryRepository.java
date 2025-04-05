@@ -10,6 +10,6 @@ public interface CategoryRepository {
     List<Category> findAll();
     Optional<Category> findById(Long id);
     Optional<Category> findByCategoryName(String userId, String categoryName);
-    List<Category> findByUserIdAndIsActive(String userId, boolean isActive);
+    List<Category> findByUserIdAndIsActive(String userId, Boolean isActive);
 }
 

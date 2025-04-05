@@ -48,7 +48,7 @@ public class JpaCategoryRepository implements CategoryRepository {
     }
 
     @Override
-    public List<Category> findByUserIdAndIsActive(String userId, boolean isActive) {
+    public List<Category> findByUserIdAndIsActive(String userId, Boolean isActive) {
         return em.createQuery("select c from Category c where c.userId = :userId and c.isActive = :isActive", Category.class)
                 .setParameter("userId", userId)
                 .setParameter("isActive", isActive)
