@@ -71,7 +71,7 @@ export default function Test(){
         }
     }, [todayDate]);
 
-    /*처음 화면 켰을때, category, todo, 오늘날짜 fetch*/
+    /*처음 화면 켰을때, 카테고리, 투두, 오늘 날짜 fetch*/
     useEffect(() => {
         fetchCategories();
         fetchTodos();
