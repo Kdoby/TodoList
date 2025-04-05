@@ -17,6 +17,16 @@ export default function Test(){
     const [todayDate, setDate] = useState('');
     const [newColor, setNewColor] = useState('');
 
+    const fetchTodayDate = async () => {
+        const today = new Date();
+        const formatted = today
+            .toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+            .replace(/\. /g, '-')
+            .replace('.', '');
+
+        document.getElementById("inputDate").value = formatted;
+        setDate(formatted);
+    }
 
     const fetchCategories = async () => {
         try {
@@ -61,23 +71,19 @@ export default function Test(){
         }
     }, [todayDate]);
 
-    /* 처음 화면 켰을때 */
+    /*처음 화면 켰을때, 카테고리, 투두, 오늘 날짜 fetch*/
     useEffect(() => {
         fetchCategories();
         fetchTodos();
-
-        const today = new Date();
-        const formatted = today
-            .toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-            .replace(/\. /g, '-')
-            .replace('.', '');
-        setDate(formatted);
+        fetchTodayDate();
     }, []);
 
+    // 카테고리 추가
     const addCategory = async () => {
         try {
             console.log(userName, newCategory, newColor);
 
+            // post /api/categories
             const response = await axios.post('/api/categories', {
                 userId: userName,
                 name: newCategory,
@@ -117,73 +123,140 @@ export default function Test(){
         } catch (error) {
             alert(error.message);
         }
-        };
-
-    // today 버튼 누르면
-    const dateIsToday = async () => {
-        const today = new Date();
-        const formatted = today
-        .toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-        .replace(/\. /g, '-')
-        .replace('.', '');
-
-        // input의 값을 오늘 날짜로 바꾸기
-        document.getElementById("inputDate").value = formatted;
-
-        // setDate
-        setDate(formatted);
-    }
+    };
 
     return(
-    <div>
+    <div style={{
+            width: '80%',
+            margin: 'auto'
+    }}>
         <h1>Todo List</h1>
 
         <div>
             UserName : <input type="text" onChange={(e) => setUserName(e.target.value)} />
         </div>
 
-        <div>
-            date: <input id="inputDate" type="date" defaultValue={todayDate} onChange = {(e) => setDate(e.target.value)}/> <button onClick={dateIsToday}>Today</button>
-        </div>
-
         <div style={{
                     display:"grid",
-                    gridTemplateColumns:"1fr 1fr 1fr",
-                    gap:"20px"
+                    gridTemplateColumns:"1fr 3fr",
+                    gap:"20px",
+                    marginTop: '30px'
         }}>
-            <div>
-                <h3>Category</h3>
+
+            <div style={{
+                    border: 'solid 1px #999999',
+                    borderRadius: '15px',
+                    padding: "20px"
+            }}>
+                <h3 style={{
+                        margin:'0px'
+                }}>
+                Category
+                </h3>
+
+                <hr style={{marginTop:'28px'}} />
+
                 <TestCategoryList categories={categories} />
 
-                <br />
+                <br /><br />
 
-                <div>
+                <div style={{
+                        marginBottom: '15px'
+                }}>
                     add category: <input type="text"  onChange={(e) => setNewCategory(e.target.value)}/>
-                    color: <input type="color" value="#FFFFFF" onChange={(e) => setNewColor(e.target.value)}></input>
-                    <button onClick={addCategory}>add</button>
                 </div>
+                <div style={{
+                        marginBottom: '15px'
+                }}>
+                    color: <input type="color" onChange={(e) => setNewColor(e.target.value)}></input>
+                </div>
+
+                <button onClick={addCategory}>add</button>
             </div>
 
-            <div>
-                <h3>View TodoList</h3>
-                <TestTodoList allTodos={allTodos} />
-            </div>
+            <div style={{
+                    border: 'solid 1px #999999',
+                    borderRadius: '15px',
+                    padding: "20px",
 
-            <div>
-                <h3>add TodoList</h3>
+                    display: 'grid',
+                    gridTemplateColumns: '2fr 1fr',
+                    gap: '20px'
+            }}>
+                <div>
+                    <h3 style={{
+                            float: 'left',
+                            margin:'0px'
+                    }}>
+                    Todo List
+                    </h3>
 
-                <br />
+                    <div style={{
+                            float: 'right'
+                    }}>
+                        <button onClick={fetchTodayDate}
+                                style={{
+                                    margin: '0px'
+                        }}>
+                        Today
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <input id="inputDate" type="date"
+                           defaultValue={todayDate}
+                           onChange = {(e) => setDate(e.target.value)}
+                           style={{
+                                width: '100%',
+                                textAlign: 'center'
+                           }}
+                    />
+                </div>
+
+
 
                 <div>
+                    <hr />
+                    <TestTodoList allTodos={allTodos} />
+                </div>
+
+                <div style={{
+                        border: 'solid 1px #999999',
+                        borderRadius: '15px',
+                        padding: "20px"
+                }}>
+                    <h3 style={{
+                            margin:'0px'
+                    }}>
+                    Add / Edit
+                    </h3>
+
+                    <br />
+
                     <div>
-                        select category:
-                        <TestCategoryListSelectBox categories={categories}
-                            onChange = {(e) => setCategoryIdToMakeNewTodo(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        add todo: <input type="text" onChange = {(e) => setNewTodo(e.target.value)}/>
-                        <button onClick={addTodo}>add</button>
+                        <div style={{
+                                marginBottom: '15px'
+                        }}>
+                            Date : <input type="date" value={todayDate}/>
+                        </div>
+                        <div style={{
+                                marginBottom: '15px'
+                        }}>
+                            Category : <TestCategoryListSelectBox categories={categories}
+                                           onChange = {(e) => setCategoryIdToMakeNewTodo(e.target.value)}
+                                       />
+                        </div>
+                        <div style={{
+                                marginBottom: '15px'
+                        }}>
+                            Todo : <input type="text" onChange = {(e) => setNewTodo(e.target.value)}/>
+                        </div>
+
+                        <br />
+
+                        <div>
+                            <button onClick={addTodo}>add</button>
+                        </div>
                     </div>
                 </div>
             </div>
