@@ -12,7 +12,7 @@ public class CategoryRequestDto {
     private String userId;
     private String name;
     private String color;
-    private boolean isActive;
+    private Boolean isActive;
 
     // dto -> entity
     public Category toEntity() {

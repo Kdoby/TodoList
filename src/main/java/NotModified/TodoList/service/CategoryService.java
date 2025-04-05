@@ -33,7 +33,7 @@ public class CategoryService {
     }
 
     // 카테고리 목록 찾기 - 활성화 or 비활성화
-    public List<CategoryResponseDto> findCategories(String userId, boolean isActive) {
+    public List<CategoryResponseDto> findCategories(String userId, Boolean isActive) {
        return categoryRepository.findByUserIdAndIsActive(userId, isActive)
                .stream()
                .map(CategoryResponseDto::new)
