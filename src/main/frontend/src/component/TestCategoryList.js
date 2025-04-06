@@ -6,19 +6,19 @@ const TestCategoryList = ({ categories }) => {
     return (
         <div id="categoryList">
             {categories.map((category) => (
-                <div>
+                <div style={{
+                        margin: '5px 0px'
+                }}>
                     <span className="categoryColor"
                           style={{
                                   backgroundColor: category.color,
                                   display: 'inline-block',
                                   width: '5px',
-                                  height: '20px',
-                                  marginRight: '5px',
+                                  height: '30px',
+                                  margin: '5px',
                                   verticalAlign:'middle'
                           }}
-                    >
-                        {category.categoryColor}
-                    </span>
+                    ></span>
                     <span key={category.id} className="category">
                         {category.name || 'No Name'}
                     </span>
