@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const TestTodoList = ({ allTodos, fetchTodos }) => {
     const [editingTodoId, setEditingTodoId] = useState(null); // 현재 편집 중인 투두 ID
-    const [checked, setChecked] = useState('');
 
     if (!allTodos?.data || !Array.isArray(allTodos.data)) {
         return <div>No todos available</div>;
@@ -26,7 +25,7 @@ const TestTodoList = ({ allTodos, fetchTodos }) => {
     };
 
     // 투두 수정
-    const editTodo = async (id, title) => {
+    const editTodo = async (id, title,checked) => {
         try {
         console.log(title, checked);
             const response = await axios.put(`/api/todos/${id}`, {
@@ -81,8 +80,7 @@ const TestTodoList = ({ allTodos, fetchTodos }) => {
                                     type = 'checkbox'
                                     defaultChecked={todo.isDone}
                                     onChange={(e) => {
-                                        setChecked(e.target.checked);
-                                        editTodo(todo.id, todo.title);
+                                        editTodo(todo.id, null, e.target.checked);
                                     }}
                                     style={{
                                         background: '#999999',
@@ -96,7 +94,7 @@ const TestTodoList = ({ allTodos, fetchTodos }) => {
                                         onBlur={() => setEditingTodoId(null)}
                                         onKeyDown={(e) => {
                                             if (e.key === "Enter") { // Enter 키를 눌렀을 때
-                                                editTodo(todo.id, e.target.value);
+                                                editTodo(todo.id, e.target.value, null);
                                             }
                                         }}
                                         autoFocus
