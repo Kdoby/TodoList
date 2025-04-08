@@ -11,4 +11,5 @@ public interface TodoRepository {
     Optional<Todo> findById(Long id);
     List<Todo> findByDate(LocalDate date, String userId);
     List<Todo> findAll();
+    void delete(Todo todo);
 }
