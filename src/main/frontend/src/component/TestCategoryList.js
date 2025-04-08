@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './TestCategoryList.css';
+
 const TestCategoryList = ({ categories }) => {
     console.log(categories);
 
@@ -22,6 +24,19 @@ const TestCategoryList = ({ categories }) => {
                     <span key={category.id} className="category">
                         {category.name || 'No Name'}
                     </span>
+                    <div class="setting-wrapper"
+                         style={{
+                            display:'inline',
+                            float:'right'
+                    }}>
+                      <span>setting</span>
+                      <ul class="setting">
+                        <li>edit</li>
+                        <li>inactive</li>
+                        <li>delete</li>
+                      </ul>
+                    </div>
+
                 </div>
             ))}
         </div>
