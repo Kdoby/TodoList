@@ -2,20 +2,14 @@ package NotModified.TodoList.service;
 
 import NotModified.TodoList.domain.Category;
 import NotModified.TodoList.domain.Todo;
-import NotModified.TodoList.dto.todo.TodoCreateRequestDto;
-import NotModified.TodoList.dto.todo.TodoDateRequestDto;
-import NotModified.TodoList.dto.todo.TodoGroupedResponseDto;
-import NotModified.TodoList.dto.todo.TodoResponseDto;
+import NotModified.TodoList.dto.todo.*;
 import NotModified.TodoList.repository.CategoryRepository;
 import NotModified.TodoList.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -64,5 +58,18 @@ public class TodoService {
 
     public List<Todo> findTodos() {
         return todoRepository.findAll();
+    }
+
+    public void updateTodo(Long id, TodoUpdateRequestDto dto) {
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 todo 입니다."));
+        if(dto.getTitle() != null) todo.setTitle(dto.getTitle());
+        if(dto.getIsDone() != null) todo.setIsDone(dto.getIsDone());
+    }
+
+    public void deleteTodo(Long id) {
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 todo 입니다."));
+        todoRepository.delete(todo);
     }
 }
