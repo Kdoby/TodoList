@@ -14,7 +14,8 @@ export default function Test(){
     const [newTodo, setNewTodo] = useState('');
     const [categoryIdToMakeNewTodo, setCategoryIdToMakeNewTodo] = useState('');
     const [allTodos, setAllTodos] = useState([]);
-    const [todayDate, setDate] = useState('');
+    const [todayDate, setDate] = useState('');  // 투두 전체적인 것에 대한 날짜
+    const [newTodoDate, setNewTodoDate] = useState('');  // 투우 만들때 필요한 날짜
     const [newColor, setNewColor] = useState('');
 
     const fetchTodayDate = async () => {
@@ -24,7 +25,8 @@ export default function Test(){
             .replace(/\. /g, '-')
             .replace('.', '');
 
-        document.getElementById("inputDate").value = formatted;
+        document.getElementsByClassName("inputDate").value = formatted;
+        setNewTodoDate(formatted);
         setDate(formatted);
     }
 
@@ -40,7 +42,6 @@ export default function Test(){
     };
 
     const fetchTodos = async () => {
-        console.log("today: " + todayDate)
         try {
             const response = await axios.post('/api/todos/list', {
                 userId: userName,
@@ -51,10 +52,6 @@ export default function Test(){
             console.error("fail fetch: ", e);
         }
     };
-
-    useEffect(() => {
-        console.log("📦:", allTodos);
-    }, [allTodos]);
 
      /*유저 이름 바뀔때 마다 바꾸기*/
     useEffect(() => {
@@ -104,13 +101,13 @@ export default function Test(){
 
     const addTodo = async () => {
         try {
-            console.log(userName, categoryIdToMakeNewTodo, newTodo, todayDate);
+            console.log(userName, categoryIdToMakeNewTodo, newTodo, newTodoDate);
 
             const response = await axios.post('/api/todos', {
                 userId: userName,
                 categoryId: Number(categoryIdToMakeNewTodo),
                 title: newTodo,
-                todoDate: todayDate
+                todoDate: newTodoDate
             });
 
 
@@ -137,10 +134,10 @@ export default function Test(){
         </div>
 
         <div style={{
-                    display:"grid",
-                    gridTemplateColumns:"1fr 3fr",
-                    gap:"20px",
-                    marginTop: '30px'
+                display:"grid",
+                gridTemplateColumns:"1fr 3fr",
+                gap:"20px",
+                marginTop: '30px'
         }}>
 
             <div style={{
@@ -203,7 +200,7 @@ export default function Test(){
                     </div>
                 </div>
                 <div>
-                    <input id="inputDate" type="date"
+                    <input className="inputDate" type="date"
                            defaultValue={todayDate}
                            onChange = {(e) => setDate(e.target.value)}
                            style={{
@@ -217,7 +214,7 @@ export default function Test(){
 
                 <div>
                     <hr />
-                    <TestTodoList allTodos={allTodos} />
+                    <TestTodoList allTodos={allTodos} fetchTodos={fetchTodos} />
                 </div>
 
                 <div style={{
@@ -237,7 +234,14 @@ export default function Test(){
                         <div style={{
                                 marginBottom: '15px'
                         }}>
-                            Date : <input type="date" value={todayDate}/>
+                            Date : <input className="inputDate" type="date"
+                                       defaultValue={todayDate}
+                                       onChange = {(e) => setNewTodoDate(e.target.value)}
+                                       style={{
+                                            width: '100%',
+                                            textAlign: 'center'
+                                       }}
+                                    />
                         </div>
                         <div style={{
                                 marginBottom: '15px'
