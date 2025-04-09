@@ -25,7 +25,7 @@ export default function Test(){
             .replace(/\. /g, '-')
             .replace('.', '');
 
-        document.getElementsByClassName("inputDate").value = formatted;
+        document.getElementById("inputDate 1").value = formatted;
         setNewTodoDate(formatted);
         setDate(formatted);
     }
@@ -153,7 +153,7 @@ export default function Test(){
                 <h3 style={{
                         margin:'0px'
                 }}>
-                {categoryMode ? (<span>Active</span>) : (<span>Inactive</span>)}Category
+                {categoryMode ? (<span>Active</span>) : (<span>Inactive</span>)} Category
                 </h3>
 
                 <hr style={{marginTop:'28px'}} />
@@ -162,19 +162,20 @@ export default function Test(){
                         <TestCategoryList categories={categories} />
 
                         <br />
+                        <div>
+                            <div style={{
+                                    marginBottom: '15px'
+                            }}>
+                                add category: <input type="text"  onChange={(e) => setNewCategory(e.target.value)}/>
+                            </div>
+                            <div style={{
+                                    marginBottom: '15px'
+                            }}>
+                                color: <input type="color" defaultValue='#ffffff' onChange={(e) => setNewColor(e.target.value)}></input>
+                            </div>
 
-                        <div style={{
-                                marginBottom: '15px'
-                        }}>
-                            add category: <input type="text"  onChange={(e) => setNewCategory(e.target.value)}/>
+                            <button onClick={addCategory}>add</button>
                         </div>
-                        <div style={{
-                                marginBottom: '15px'
-                        }}>
-                            color: <input type="color" onChange={(e) => setNewColor(e.target.value)}></input>
-                        </div>
-
-                        <button onClick={addCategory}>add</button>
 
                         <br />
 
@@ -223,7 +224,7 @@ export default function Test(){
                     </div>
                 </div>
                 <div>
-                    <input className="inputDate" type="date"
+                    <input id="inputDate 1" type="date"
                            defaultValue={todayDate}
                            onChange = {(e) => setDate(e.target.value)}
                            style={{
@@ -257,7 +258,7 @@ export default function Test(){
                         <div style={{
                                 marginBottom: '15px'
                         }}>
-                            Date : <input className="inputDate" type="date"
+                            Date : <input id="inputDate 2" type="date"
                                        defaultValue={todayDate}
                                        onChange = {(e) => setNewTodoDate(e.target.value)}
                                        style={{
