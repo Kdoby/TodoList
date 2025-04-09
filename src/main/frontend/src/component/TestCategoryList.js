@@ -10,12 +10,8 @@ const TestCategoryList = ({ categories, fetchCategories, categoryMode }) => {
         try {
             const response = await axios.delete('/api/categories/' + id);
 
-            if (response.data.success) {
-                alert(response.data.message);
-                fetchCategories(categoryMode);
-            } else {
-                alert("response error");
-            }
+            alert(response.data);
+            fetchCategories(categoryMode);
         } catch (error) {
             alert(error);
         }
