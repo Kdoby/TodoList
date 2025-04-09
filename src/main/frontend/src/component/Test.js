@@ -2,7 +2,6 @@ import TestCategoryList from './TestCategoryList';
 import TestTodoList from './TestTodoList';
 import TestCategoryListSelectBox from './TestCategoryListSelectBox';
 
-
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
@@ -17,6 +16,7 @@ export default function Test(){
     const [todayDate, setDate] = useState('');  // 투두 전체적인 것에 대한 날짜
     const [newTodoDate, setNewTodoDate] = useState('');  // 투우 만들때 필요한 날짜
     const [newColor, setNewColor] = useState('');
+    const [categoryMode, setCategoryMode] = useState(true);  // true: active, inactive
 
     const fetchTodayDate = async () => {
         const today = new Date();
@@ -30,10 +30,10 @@ export default function Test(){
         setDate(formatted);
     }
 
-    const fetchCategories = async () => {
+    const fetchCategories = async (isActive) => {
         try {
             const response = await axios.get('/api/categories/' + userName, {
-                params: { is_active: true }
+                params: { is_active: isActive }
             });
             setCategories(response.data);
         } catch (e) {
@@ -56,12 +56,12 @@ export default function Test(){
      /*유저 이름 바뀔때 마다 바꾸기*/
     useEffect(() => {
         if (userName) {
-            fetchCategories();
+            fetchCategories(categoryMode);
             fetchTodos();
         }
     }, [userName]);
 
-     /*날짜가 바뀔때 마다 바꾸기*/
+    /*날짜가 바뀔때 마다 바꾸기*/
     useEffect(() => {
         if (userName) {
             fetchTodos();
@@ -70,15 +70,20 @@ export default function Test(){
 
     /*처음 화면 켰을때, 카테고리, 투두, 오늘 날짜 fetch*/
     useEffect(() => {
-        fetchCategories();
+        fetchCategories(categoryMode);
         fetchTodos();
         fetchTodayDate();
     }, []);
 
+    useEffect(() => {
+        fetchCategories(categoryMode);
+    }, [categoryMode]);
+
+
     // 카테고리 추가
     const addCategory = async () => {
         try {
-            console.log(userName, newCategory, newColor);
+            // console.log(userName, newCategory, newColor);
 
             // post /api/categories
             const response = await axios.post('/api/categories', {
@@ -90,7 +95,7 @@ export default function Test(){
 
             if(response.data.success){
                 alert(response.data.message);
-                fetchCategories();
+                fetchCategories(categoryMode);
             }else {
                 alert("response error");
             }
@@ -101,7 +106,7 @@ export default function Test(){
 
     const addTodo = async () => {
         try {
-            console.log(userName, categoryIdToMakeNewTodo, newTodo, newTodoDate);
+            // console.log(userName, categoryIdToMakeNewTodo, newTodo, newTodoDate);
 
             const response = await axios.post('/api/todos', {
                 userId: userName,
@@ -127,7 +132,7 @@ export default function Test(){
             width: '80%',
             margin: 'auto'
     }}>
-        <h1>Todo List</h1>
+        <h1>TodoList</h1>
 
         <div>
             UserName : <input type="text" onChange={(e) => setUserName(e.target.value)} />
@@ -148,27 +153,45 @@ export default function Test(){
                 <h3 style={{
                         margin:'0px'
                 }}>
-                Category
+                {categoryMode ? (<span>Active</span>) : (<span>Inactive</span>)}Category
                 </h3>
 
                 <hr style={{marginTop:'28px'}} />
+                { categoryMode ? (
+                    <div>
+                        <TestCategoryList categories={categories} />
 
-                <TestCategoryList categories={categories} />
+                        <br />
 
-                <br /><br />
+                        <div style={{
+                                marginBottom: '15px'
+                        }}>
+                            add category: <input type="text"  onChange={(e) => setNewCategory(e.target.value)}/>
+                        </div>
+                        <div style={{
+                                marginBottom: '15px'
+                        }}>
+                            color: <input type="color" onChange={(e) => setNewColor(e.target.value)}></input>
+                        </div>
 
-                <div style={{
-                        marginBottom: '15px'
-                }}>
-                    add category: <input type="text"  onChange={(e) => setNewCategory(e.target.value)}/>
-                </div>
-                <div style={{
-                        marginBottom: '15px'
-                }}>
-                    color: <input type="color" onChange={(e) => setNewColor(e.target.value)}></input>
-                </div>
+                        <button onClick={addCategory}>add</button>
 
-                <button onClick={addCategory}>add</button>
+                        <br />
+
+                        <div>
+                            <button onClick={() => setCategoryMode(false)}>inactive cateogry list</button>
+                        </div>
+                    </div>
+                ):(
+                    <div>
+                        <TestCategoryList categories={categories} />
+
+                        <div>
+                            <button onClick={() => setCategoryMode(true)}>active cateogry list</button>
+                        </div>
+                    </div>
+                ) }
+
             </div>
 
             <div style={{
