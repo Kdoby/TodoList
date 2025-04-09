@@ -70,13 +70,13 @@ export default function Test(){
 
     /*처음 화면 켰을때, 카테고리, 투두, 오늘 날짜 fetch*/
     useEffect(() => {
-        fetchCategories(categoryMode);
-        fetchTodos();
         fetchTodayDate();
     }, []);
 
     useEffect(() => {
-        fetchCategories(categoryMode);
+        if(userName){
+            fetchCategories(categoryMode);
+        }
     }, [categoryMode]);
 
 
