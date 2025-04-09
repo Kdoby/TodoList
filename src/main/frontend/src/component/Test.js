@@ -53,7 +53,12 @@ export default function Test(){
         }
     };
 
-     /*유저 이름 바뀔때 마다 바꾸기*/
+    /* 카테고리에 무언가 변경 사항이 있으면 투두를 새로고침함. */
+    useEffect(() => {
+        fetchTodos();
+    }, [categories]);
+
+    /*유저 이름 바뀔때 마다 바꾸기*/
     useEffect(() => {
         if (userName && categoryMode) {
             fetchCategories(categoryMode);
