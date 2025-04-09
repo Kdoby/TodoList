@@ -79,7 +79,7 @@ export default function Test(){
     }, []);
 
     useEffect(() => {
-        if(userName && categoryMode){
+        if(userName){
             fetchCategories(categoryMode);
         }
     }, [categoryMode]);
