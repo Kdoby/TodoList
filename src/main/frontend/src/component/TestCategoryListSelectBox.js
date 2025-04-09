@@ -5,7 +5,11 @@ const TestCategoryListSelectBox = ({ categories, onChange }) => {
         <select name="cate" id="cate"  onChange={onChange}>
                 <option>select category</option>
             {categories.map((category) => (
-                <option value={category.id}>{category.name}</option>
+                <option key={category.id}
+                        value={category.id}
+                >
+                    {category.name}
+                </option>
             ))}
         </select>
     );
