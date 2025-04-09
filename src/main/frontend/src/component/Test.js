@@ -55,7 +55,7 @@ export default function Test(){
 
      /*유저 이름 바뀔때 마다 바꾸기*/
     useEffect(() => {
-        if (userName) {
+        if (userName && categoryMode) {
             fetchCategories(categoryMode);
             fetchTodos();
         }
@@ -83,7 +83,12 @@ export default function Test(){
     // 카테고리 추가
     const addCategory = async () => {
         try {
-            // console.log(userName, newCategory, newColor);
+            if (!userName || !newCategory || !newColor) {
+                alert("모든 필드를 입력해주세요.");
+                return;
+            }
+
+            console.log(userName, newCategory, newColor);
 
             // post /api/categories
             const response = await axios.post('/api/categories', {
@@ -100,7 +105,8 @@ export default function Test(){
                 console.log('error');
             }
         } catch (error) {
-            alert(error.response.data.message);
+            alert("카테고리 생성 중 오류가 발생했습니다.");
+            console.log(error);
         }
     };
 
