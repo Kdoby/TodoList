@@ -2,6 +2,7 @@ package NotModified.TodoList.controller;
 
 import NotModified.TodoList.dto.category.CategoryRequestDto;
 import NotModified.TodoList.dto.category.CategoryResponseDto;
+import NotModified.TodoList.dto.category.CategoryUpdateRequestDto;
 import NotModified.TodoList.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,17 @@ public class CategoryApiController {
     @GetMapping("/categories/{userId}")
     public List<CategoryResponseDto> getAllCategories(@PathVariable("userId") String userId, @RequestParam("is_active") Boolean isActive) {
         return categoryService.findCategories(userId, isActive);
+    }
+
+    @PutMapping("/categories/{id}")
+    public ResponseEntity<?> updateActivation(@PathVariable("id") Long id, @RequestBody CategoryUpdateRequestDto request) {
+        categoryService.updateCategory(id, request);
+        return ResponseEntity.ok("카테고리 수정 성공");
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
+        categoryService.deleteCategory(id);
+        return ResponseEntity.ok("카테고리 삭제 성공");
     }
 }

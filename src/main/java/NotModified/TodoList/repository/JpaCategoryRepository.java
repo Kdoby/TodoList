@@ -30,6 +30,10 @@ public class JpaCategoryRepository implements CategoryRepository {
     }
 
     @Override
+    public void delete(Category category) {
+        em.remove(category);
+    }
+    @Override
     public Optional<Category> findById(Long id) {
         Category category = em.find(Category.class, id);
         return Optional.ofNullable(category);
