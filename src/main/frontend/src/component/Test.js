@@ -296,7 +296,7 @@ export default function Test(){
                         <br />
 
                         <div>
-                            <button onClick={addTodo}>add</button>
+                            <button disabled={!categoryMode} onClick={addTodo}>add</button>
                         </div>
                     </div>
                 </div>
