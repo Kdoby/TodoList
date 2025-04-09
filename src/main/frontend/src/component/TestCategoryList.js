@@ -23,18 +23,14 @@ const TestCategoryList = ({ categories, fetchCategories, categoryMode }) => {
         }
     };
 
-    const editCategory = async (id) => {
-    console.log(editCategoryName, editCategoryColor);
-        if(!editCategoryName && !editCategoryColor){
-            alert("모든 필드를 입력해주세요.");
-            return;
-        }
+    const editCategory = async (id, name, color, isActive) => {
+        console.log(name, color);
 
         try{
             const response = await axios.put('/api/categories/' + id, {
-                name: editCategoryName,
-                color: editCategoryColor,
-                isActive: true,
+                name: name,
+                color: color,
+                isActive: isActive
             });
 
             alert(response.data);
@@ -75,13 +71,20 @@ const TestCategoryList = ({ categories, fetchCategories, categoryMode }) => {
                             </span>
 
                             <div className="setting-wrapper">
-                                <span>setting</span>
-                                <ul className="setting">
-                                    <li onClick={() => changeToEditMode(category.id, true)}>edit</li>
-                                    <li>inactive</li>
-                                    <li onClick={() => deleteCategory(category.id)}>delete</li>
-                                </ul>
+                                {categoryMode ? (
+                                    <>
+                                        <span>setting</span>
+                                        <ul className="setting">
+                                            <li onClick={() => changeToEditMode(category.id, true)}>edit</li>
+                                            <li onClick={() => editCategory(category.id, null, null, false)}>inactive</li>
+                                            <li onClick={() => deleteCategory(category.id)}>delete</li>
+                                        </ul>
+                                    </>
+                                ) : (
+                                    <button onClick={() => editCategory(category.id, null, null, true)}>active</button>
+                                )}
                             </div>
+
                         </div>
                         <div id = {`category edit ${category.id}`}
                              style={{
@@ -89,17 +92,23 @@ const TestCategoryList = ({ categories, fetchCategories, categoryMode }) => {
                                 margin: '5px 0px'
                              }}
                         >
-                            <span>edit</span> <button onClick={() => changeToEditMode(category.id, false)}>x</button>
-                            <input type='text'
-                                   defaultValue={category.name}
-                                   onChange={(e) => setEditCategoryName(e.target.value)}
-                            />
-                            <input type="color"
-                                   defaultValue={category.color.trim()}
-                                   onChange={(e) => setEditCategoryColor(e.target.value)}
-                            />
                             <div>
-                                <button onClick={() => editCategory(category.id)}>edit</button>
+                                <span>edit</span> <button onClick={() => changeToEditMode(category.id, false)}>x</button>
+                            </div>
+                            <div>
+                                <input type='text'
+                                       defaultValue={category.name}
+                                       onChange={(e) => setEditCategoryName(e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <input type="color"
+                                       defaultValue={category.color.trim()}
+                                       onChange={(e) => setEditCategoryColor(e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <button onClick={() => editCategory(category.id, editCategoryName, editCategoryColor, true)}>edit</button>
                             </div>
                         </div>
                     </div>
