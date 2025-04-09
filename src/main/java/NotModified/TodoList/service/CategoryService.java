@@ -3,6 +3,7 @@ package NotModified.TodoList.service;
 import NotModified.TodoList.domain.Category;
 import NotModified.TodoList.dto.category.CategoryRequestDto;
 import NotModified.TodoList.dto.category.CategoryResponseDto;
+import NotModified.TodoList.dto.category.CategoryUpdateRequestDto;
 import NotModified.TodoList.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class CategoryService {
     public void validateDuplicateCategory(CategoryRequestDto categoryDto) {
         categoryRepository.findByCategoryName(categoryDto.getUserId(), categoryDto.getName())
                 .ifPresent(c -> {
-                    throw new IllegalStateException("이미 존재하는 카테고리 입니다.");
+                    throw new IllegalStateException("이미 존재하는 카테고리입니다.");
                 });
     }
 
@@ -30,6 +31,20 @@ public class CategoryService {
         validateDuplicateCategory(categoryDto);
         Category category = categoryRepository.save(categoryDto.toEntity());
         return category.getId();
+    }
+
+    public void updateCategory(Long id, CategoryUpdateRequestDto dto) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
+        if(dto.getName() != null) category.setName(dto.getName());
+        if(dto.getColor() != null) category.setColor(dto.getColor());
+        if(dto.getIsActive() != null) category.setIsActive(dto.getIsActive());
+    }
+
+    public void deleteCategory(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
+        categoryRepository.delete(category);
     }
 
     // 카테고리 목록 찾기 - 활성화 or 비활성화
