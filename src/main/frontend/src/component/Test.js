@@ -79,7 +79,7 @@ export default function Test(){
     }, []);
 
     useEffect(() => {
-        if(userName){
+        if(userName && categoryMode){
             fetchCategories(categoryMode);
         }
     }, [categoryMode]);
@@ -281,8 +281,10 @@ export default function Test(){
                         <div style={{
                                 marginBottom: '15px'
                         }}>
-                            Category : <TestCategoryListSelectBox categories={categories}
-                                           onChange = {(e) => setCategoryIdToMakeNewTodo(e.target.value)}
+                            Category : <TestCategoryListSelectBox
+                                                categories={categories}
+
+                                                onChange = {(e) => setCategoryIdToMakeNewTodo(e.target.value)}
                                        />
                         </div>
                         <div style={{
