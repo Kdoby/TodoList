@@ -97,10 +97,10 @@ export default function Test(){
                 alert(response.data.message);
                 fetchCategories(categoryMode);
             }else {
-                alert("response error");
+                console.log('error');
             }
         } catch (error) {
-            alert(error);
+            alert(error.response.data.message);
         }
     };
 
@@ -159,7 +159,7 @@ export default function Test(){
                 <hr style={{marginTop:'28px'}} />
                 { categoryMode ? (
                     <div>
-                        <TestCategoryList categories={categories} />
+                        <TestCategoryList categories={categories} fetchCategories={fetchCategories} categoryMode={categoryMode} />
 
                         <br />
                         <div>
@@ -185,7 +185,7 @@ export default function Test(){
                     </div>
                 ):(
                     <div>
-                        <TestCategoryList categories={categories} />
+                        <TestCategoryList categories={categories} fetchCategories={fetchCategories} categoryMode={categoryMode} />
 
                         <div>
                             <button onClick={() => setCategoryMode(true)}>active cateogry list</button>
