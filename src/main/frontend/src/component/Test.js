@@ -25,7 +25,7 @@ export default function Test(){
             .replace(/\. /g, '-')
             .replace('.', '');
 
-        document.getElementsByClassName("inputDate").value = formatted;
+        document.getElementById("inputDate 1").value = formatted;
         setNewTodoDate(formatted);
         setDate(formatted);
     }
@@ -53,9 +53,14 @@ export default function Test(){
         }
     };
 
-     /*유저 이름 바뀔때 마다 바꾸기*/
+    /* 카테고리에 무언가 변경 사항이 있으면 투두를 새로고침함. */
     useEffect(() => {
-        if (userName) {
+        fetchTodos();
+    }, [categories]);
+
+    /*유저 이름 바뀔때 마다 바꾸기*/
+    useEffect(() => {
+        if (userName && categoryMode) {
             fetchCategories(categoryMode);
             fetchTodos();
         }
@@ -70,20 +75,25 @@ export default function Test(){
 
     /*처음 화면 켰을때, 카테고리, 투두, 오늘 날짜 fetch*/
     useEffect(() => {
-        fetchCategories(categoryMode);
-        fetchTodos();
         fetchTodayDate();
     }, []);
 
     useEffect(() => {
-        fetchCategories(categoryMode);
+        if(userName){
+            fetchCategories(categoryMode);
+        }
     }, [categoryMode]);
 
 
     // 카테고리 추가
     const addCategory = async () => {
         try {
-            // console.log(userName, newCategory, newColor);
+            if (!userName || !newCategory || !newColor) {
+                alert("모든 필드를 입력해주세요.");
+                return;
+            }
+
+            console.log(userName, newCategory, newColor);
 
             // post /api/categories
             const response = await axios.post('/api/categories', {
@@ -97,10 +107,11 @@ export default function Test(){
                 alert(response.data.message);
                 fetchCategories(categoryMode);
             }else {
-                alert("response error");
+                console.log('error');
             }
         } catch (error) {
-            alert(error);
+            alert("카테고리 생성 중 오류가 발생했습니다.");
+            console.log(error);
         }
     };
 
@@ -153,28 +164,29 @@ export default function Test(){
                 <h3 style={{
                         margin:'0px'
                 }}>
-                {categoryMode ? (<span>Active</span>) : (<span>Inactive</span>)}Category
+                {categoryMode ? (<span>Active</span>) : (<span>Inactive</span>)} Category
                 </h3>
 
                 <hr style={{marginTop:'28px'}} />
                 { categoryMode ? (
                     <div>
-                        <TestCategoryList categories={categories} />
+                        <TestCategoryList categories={categories} fetchCategories={fetchCategories} categoryMode={categoryMode} />
 
                         <br />
+                        <div>
+                            <div style={{
+                                    marginBottom: '15px'
+                            }}>
+                                add category: <input type="text"  onChange={(e) => setNewCategory(e.target.value)}/>
+                            </div>
+                            <div style={{
+                                    marginBottom: '15px'
+                            }}>
+                                color: <input type="color" defaultValue='#ffffff' onChange={(e) => setNewColor(e.target.value)}></input>
+                            </div>
 
-                        <div style={{
-                                marginBottom: '15px'
-                        }}>
-                            add category: <input type="text"  onChange={(e) => setNewCategory(e.target.value)}/>
+                            <button onClick={addCategory}>add</button>
                         </div>
-                        <div style={{
-                                marginBottom: '15px'
-                        }}>
-                            color: <input type="color" onChange={(e) => setNewColor(e.target.value)}></input>
-                        </div>
-
-                        <button onClick={addCategory}>add</button>
 
                         <br />
 
@@ -184,7 +196,7 @@ export default function Test(){
                     </div>
                 ):(
                     <div>
-                        <TestCategoryList categories={categories} />
+                        <TestCategoryList categories={categories} fetchCategories={fetchCategories} categoryMode={categoryMode} />
 
                         <div>
                             <button onClick={() => setCategoryMode(true)}>active cateogry list</button>
@@ -223,7 +235,7 @@ export default function Test(){
                     </div>
                 </div>
                 <div>
-                    <input className="inputDate" type="date"
+                    <input id="inputDate 1" type="date"
                            defaultValue={todayDate}
                            onChange = {(e) => setDate(e.target.value)}
                            style={{
@@ -257,7 +269,7 @@ export default function Test(){
                         <div style={{
                                 marginBottom: '15px'
                         }}>
-                            Date : <input className="inputDate" type="date"
+                            Date : <input id="inputDate 2" type="date"
                                        defaultValue={todayDate}
                                        onChange = {(e) => setNewTodoDate(e.target.value)}
                                        style={{
@@ -269,8 +281,10 @@ export default function Test(){
                         <div style={{
                                 marginBottom: '15px'
                         }}>
-                            Category : <TestCategoryListSelectBox categories={categories}
-                                           onChange = {(e) => setCategoryIdToMakeNewTodo(e.target.value)}
+                            Category : <TestCategoryListSelectBox
+                                                categories={categories}
+
+                                                onChange = {(e) => setCategoryIdToMakeNewTodo(e.target.value)}
                                        />
                         </div>
                         <div style={{
@@ -282,7 +296,7 @@ export default function Test(){
                         <br />
 
                         <div>
-                            <button onClick={addTodo}>add</button>
+                            <button disabled={!categoryMode} onClick={addTodo}>add</button>
                         </div>
                     </div>
                 </div>
