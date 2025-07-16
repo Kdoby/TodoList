@@ -43,16 +43,16 @@ export default function Test(){
     };
 
     const fetchTodos = async () => {
-        try {
-            const response = await axios.post('/api/todos/list', {
-                userId: userName,
-                todoDate: todayDate
-            });
-            setAllTodos(response.data);
-        } catch (e) {
-            console.error("fail fetch: ", e);
-        }
-    };
+            try {
+                const response = await axios.post('/api/todos/list', {
+                    userId: userName,
+                    todoDate: todayDate
+                });
+                setAllTodos(response.data);
+            } catch (e) {
+                console.error("fail fetch: ", e);
+            }
+        };
 
     /* 카테고리에 무언가 변경 사항이 있으면 투두를 새로고침함. */
     useEffect(() => {

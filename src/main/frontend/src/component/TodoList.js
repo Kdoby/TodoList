@@ -1,6 +1,8 @@
 import TestCategoryList from './TestCategoryList';
 import TodayTodoList from './TodayTodoList';
 import AddAditTodo from './AddAditTodo';
+import Advice from './Advice';
+import './TodoList.css';
 
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
@@ -87,13 +89,9 @@ export default function TodoList({ userName, todayDate, fetchTodayDate, setDate 
     }}>
         <h1>TodoList</h1>
 
-        <div style={{
-                display:"grid",
-                gridTemplateColumns:"1fr 3fr",
-                gap:"20px",
-                marginTop: '30px'
-        }}>
-            <div style={{
+        <div className="grid-container">
+            <div className="one"
+                 style={{
                     border: 'solid 1px #999999',
                     borderRadius: '15px',
                     padding: "20px"
@@ -143,7 +141,8 @@ export default function TodoList({ userName, todayDate, fetchTodayDate, setDate 
                 ) }
             </div>
 
-            <div style={{
+            <div className="two"
+                 style={{
                     border: 'solid 1px #999999',
                     borderRadius: '15px',
                     padding: "20px",
@@ -204,6 +203,9 @@ export default function TodoList({ userName, todayDate, fetchTodayDate, setDate 
                                  categoryMode={categoryMode} fetchTodos={fetchTodos}
                     />
                 </div>
+            </div>
+            <div className="three">
+                <Advice />
             </div>
         </div>
     </div>

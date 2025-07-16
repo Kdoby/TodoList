@@ -6,16 +6,19 @@ const TestTodoList = ({ userName, todayDate, categories, allTodos, setAllTodos }
 
     const fetchTodos = async () => {
         console.log("userName: " + userName + ", todayDate: " + todayDate);
-        try {
-            const response = await axios.post('/api/todos/list', {
-                userId: userName,
-                todoDate: todayDate
-            });
-            setAllTodos(response.data);
-            console.log(allTodos);
-        } catch (e) {
-            console.error("fail fetch: ", e);
+        if(userName && todayDate) {
+            try {
+                const response = await axios.post('/api/todos/list', {
+                    userId: userName,
+                    todoDate: todayDate
+                });
+                setAllTodos(response.data);
+                console.log(allTodos);
+            } catch (e) {
+                console.error("fail fetch: ", e);
+            }
         }
+
     };
 
     // 투두 삭제
@@ -35,9 +38,9 @@ const TestTodoList = ({ userName, todayDate, categories, allTodos, setAllTodos }
     };
 
     // 투두 수정
-    const editTodo = async (id, title,checked) => {
+    const editTodo = async (id, title, checked) => {
         try {
-        console.log(title, checked);
+            console.log(title, checked);
             const response = await axios.put(`/api/todos/${id}`, {
                 title,
                 isDone: checked

@@ -9,14 +9,8 @@ export default function AddAditTodo({ userName, todayDate, categories, categoryM
     const [newTodo, setNewTodo] = useState('');
 
     const addTodo = async () => {
-        if(!newTodoDate){
-            alert("Error: Date를 선택하세요");
-        }
-        else if(!categoryIdToMakeNewTodo){
-            alert("Error: category를 선택하세요");
-        }
-        else if(!newTodo){
-            alert("Error: todo를 작성해세요");
+        if(!newTodoDate || !categoryIdToMakeNewTodo || !newTodo){
+            alert("Error: 모든 필드를 선택하세요");
         }
         else{
              try {
