@@ -1,10 +1,9 @@
 package NotModified.TodoList.repository;
 
 import NotModified.TodoList.domain.StudyLog;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface StudyLogRepository {
-    StudyLog save(StudyLog studyLog);
-    List<StudyLog> findAll();
+@Repository
+public interface StudyLogRepository extends JpaRepository<StudyLog, Long> {
 }
