@@ -10,6 +10,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class TodoDateRequestDto {
-    String userId;
-    LocalDate todoDate;
+    private String userId;
+    private LocalDate todoDate;
 }
