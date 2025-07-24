@@ -14,6 +14,7 @@ create table todo
     title varchar(255) NOT NULL,
     is_done BOOLEAN DEFAULT false,
     todo_date DATE,
+    total_duration int default 0,
     category_id bigint,
     FOREIGN KEY(category_id) REFERENCES category(id) ON DELETE CASCADE
 );
@@ -22,9 +23,18 @@ create table study_log
 (
     id bigint AUTO_INCREMENT PRIMARY KEY,
     todo_id bigint NOT NULL,
-    started_at DATETIME NOT NULL,
-    ended_at DATETIME NOT NULL,
-    FOREIGN KEY(todo_id) REFERENCES todo(id) ON DELETE CASCADE
+    start_time DATETIME,
+    end_time DATETIME,
+    log_date DATE,
+    duration INT not null
+);
+
+create table lesson
+(
+    id bigint AUTO_INCREMENT PRIMARY KEY,
+    user_id varchar(50) NOT NULL,
+    content varchar(255),
+    todo_date DATE NOT NULL
 );
 
 // test query
