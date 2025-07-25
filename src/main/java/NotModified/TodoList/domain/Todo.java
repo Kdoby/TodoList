@@ -33,6 +33,9 @@ public class Todo {
     @Column(name = "todo_date")
     private LocalDate todoDate;
 
+    @Column(name = "total_duration")
+    private Integer totalDuration;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private Category category;

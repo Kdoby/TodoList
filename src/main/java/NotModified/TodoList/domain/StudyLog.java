@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -22,32 +24,19 @@ public class StudyLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // StudyLog를 조회할 때 바로 Todo 객체까지 로딩하지 않고,
-    // todo.getTitle() 등으로 접근할 때 그때서야 SELECT 쿼리 날림
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "todo_id", nullable = false)
-    private Todo todo;
+    @Column(name = "todo_id", nullable = false)
+    private Long todoId;
 
-    @Column(name = "started_at", nullable = false)
-    private LocalDateTime startedAt;
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
 
-    @Column(name = "ended_at", nullable = false)
-    private LocalDateTime endedAt;
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
 
-    @PrePersist
-    public void onCreate() {
-        LocalDateTime now = LocalDateTime.now();
-        this.startedAt = now;
-        this.endedAt = now;
-    }
+    @Column(name = "log_date")
+    private LocalDate logDate;
 
-    @PreUpdate
-    public void onUpdate() {
-        this.endedAt = LocalDateTime.now();
-    }
-
-    public long getDurationInMinutes() {
-        return Duration.between(startedAt, endedAt).toMinutes();
-    }
+    @Column(name = "duration", nullable = false)
+    private Integer duration;
 }
 
