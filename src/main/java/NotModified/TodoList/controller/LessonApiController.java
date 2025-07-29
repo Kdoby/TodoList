@@ -1,12 +1,14 @@
 package NotModified.TodoList.controller;
 
 import NotModified.TodoList.dto.lesson.LessonCreateRequest;
+import NotModified.TodoList.dto.lesson.LessonResponse;
 import NotModified.TodoList.dto.lesson.LessonUpdateRequest;
 import NotModified.TodoList.service.LessonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 @RestController
@@ -29,7 +31,7 @@ public class LessonApiController {
     @PutMapping("/todo/lesson/{id}")
     public ResponseEntity<?> updateLesson(@PathVariable("id") Long id,
                                           @RequestBody LessonUpdateRequest request) {
-        lessonService.updateLesson(id, request.getContent());
+        lessonService.updateLesson(id, request);
 
         return ResponseEntity.ok(Map.of(
                 "success", true,
@@ -46,5 +48,12 @@ public class LessonApiController {
                 "success", true,
                 "message", "lesson 삭제 성공"
         ));
+    }
+
+    // lesson 조회
+    @GetMapping("/todo/lesson/{userId}/{date}")
+    public ResponseEntity<LessonResponse> getLesson(@PathVariable("userId") String userId,
+                                                    @PathVariable("date") LocalDate date) {
+        return ResponseEntity.ok(lessonService.getLessonByDate(userId, date));
     }
 }

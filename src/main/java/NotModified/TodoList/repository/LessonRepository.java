@@ -11,6 +11,8 @@ import java.time.LocalDate;
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
     @Query("SELECT l FROM Lesson l " +
-            "WHERE l.todoDate = :date")
-    Lesson findByTodoDate(@Param("date") LocalDate date);
+            "WHERE l.userId = :userId " +
+            "AND l.lessonDate = :date")
+    Lesson findByDate(@Param("userId") String userId,
+                      @Param("date") LocalDate date);
 }
