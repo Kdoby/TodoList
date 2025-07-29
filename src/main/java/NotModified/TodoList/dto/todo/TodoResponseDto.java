@@ -16,6 +16,7 @@ public class TodoResponseDto {
     private String title;
     private Boolean isDone;
     private LocalDate todoDate;
+    private Integer totalDuration;
 
     public TodoResponseDto(Todo todo) {
         this.id = todo.getId();
@@ -23,5 +24,6 @@ public class TodoResponseDto {
         this.title = todo.getTitle();
         this.isDone = todo.getIsDone();
         this.todoDate = todo.getTodoDate();
+        this.totalDuration = todo.getTotalDuration();
     }
 }
