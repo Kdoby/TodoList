@@ -1,6 +1,7 @@
 package NotModified.TodoList.dto.todo;
 
 import NotModified.TodoList.domain.Todo;
+import NotModified.TodoList.dto.lesson.LessonResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,15 +18,13 @@ public class TodoGroupedResponseDto {
     private String categoryColor;
     private Boolean categoryIsActive;
     private List<TodoResponseDto> todos = new ArrayList<>();
-    private String lesson;
 
-    public TodoGroupedResponseDto(Long categoryId, String categoryName, String categoryColor, Boolean categoryIsActive, String lesson) {
+    public TodoGroupedResponseDto(Long categoryId, String categoryName, String categoryColor, Boolean categoryIsActive) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.categoryColor = categoryColor;
         this.categoryIsActive = categoryIsActive;
         this.todos = new ArrayList<>(); // 초기화
-        this.lesson = lesson;
     }
 
     public void addTodo(Todo todo) {
