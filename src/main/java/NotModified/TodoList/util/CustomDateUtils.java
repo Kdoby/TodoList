@@ -30,7 +30,8 @@ public class CustomDateUtils {
     public static boolean isTodayForTimer(LocalDate todoDate, LocalDateTime now) {
         return todoDate.equals(getCustomLogDate(now));
     }
-    
+
+    // (오전 06:00 ~ 다음날 05:59) 범위에 속하는지 체크
     public static boolean isWithinCustomDay(LocalDateTime start, LocalDateTime end) {
         if(start.isAfter(end)) return false;
 
