@@ -14,9 +14,10 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudyLogCreateRequest {
+    private String userId;
     private Long todoId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     // 수동 등록 여부 (true = 수동, false = 타이머 측정)
-    private boolean isManual;
+    private Boolean isManual;
 }
