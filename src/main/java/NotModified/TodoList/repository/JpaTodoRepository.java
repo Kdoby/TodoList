@@ -35,7 +35,7 @@ public class JpaTodoRepository implements TodoRepository {
 
     // 특정 날짜에 대한 todoList
     @Override
-    public List<Todo> findByDate(LocalDate date, String userId) {
+    public List<Todo> findByDate(String userId, LocalDate date) {
         // 활성화 카테고리에 대한 todo - 비활성화 카테고리에 대한 todo 순으로 select
         return em.createQuery("select t from Todo t join t.category c where t.todoDate = :date and t.userId = :userId " +
                         "order by c.isActive desc", Todo.class)
