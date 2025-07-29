@@ -22,11 +22,18 @@ create table todo
 create table study_log
 (
     id bigint AUTO_INCREMENT PRIMARY KEY,
-    todo_id bigint NOT NULL,
+    user_id varchar(50) NOT NULL,
+
+    todo_id bigint,
+    todo_title varchar(255),
+    category_name varchar(50),
+    category_color char(9),
+
     start_time DATETIME,
     end_time DATETIME,
     log_date DATE,
-    duration INT not null
+    duration INT not null,
+    is_manual boolean
 );
 
 create table lesson
@@ -34,7 +41,8 @@ create table lesson
     id bigint AUTO_INCREMENT PRIMARY KEY,
     user_id varchar(50) NOT NULL,
     content varchar(255),
-    todo_date DATE NOT NULL
+    content_writer varchar(255),
+    lesson_date DATE NOT NULL
 );
 
 // test query
