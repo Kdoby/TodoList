@@ -6,6 +6,7 @@ import NotModified.TodoList.domain.Todo;
 import NotModified.TodoList.dto.todo.*;
 import NotModified.TodoList.repository.CategoryRepository;
 import NotModified.TodoList.repository.LessonRepository;
+import NotModified.TodoList.repository.StudyLogRepository;
 import NotModified.TodoList.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,6 @@ import java.util.*;
 public class TodoService {
     private final TodoRepository todoRepository;
     private final CategoryRepository categoryRepository;
-
     // todo 등록
     public Long saveTodo(TodoCreateRequestDto todoDto) {
         // 존재하지 않거나, 비활성화된 카테고리에 대해서는 등록할 수 없음
