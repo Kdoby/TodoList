@@ -25,6 +25,9 @@ public class Lesson {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "todo_date", nullable = false)
-    private LocalDate todoDate;
+    @Column(name = "content_writer")
+    private String contentWriter;
+
+    @Column(name = "lesson_date", nullable = false)
+    private LocalDate lessonDate;
 }

@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LessonUpdateRequest {
     private String content;
+    private String contentWriter;
 }

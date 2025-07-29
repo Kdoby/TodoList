@@ -1,4 +1,4 @@
-package NotModified.TodoList.dto.lesson;
+package NotModified.TodoList.dto.studyLog;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,14 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LessonCreateRequest {
+@Getter
+public class StudyLogUpdateRequest {
     private String userId;
-    private String content;
-    private String contentWriter;
-    private LocalDate lessonDate;
+    private LocalDate logDate;
+    private LocalDateTime start;
+    private LocalDateTime end;
 }

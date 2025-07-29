@@ -2,6 +2,7 @@ package NotModified.TodoList.service;
 
 import NotModified.TodoList.domain.Lesson;
 import NotModified.TodoList.domain.Todo;
+import NotModified.TodoList.dto.lesson.LessonResponse;
 import NotModified.TodoList.dto.todo.TodoDateRequestDto;
 import NotModified.TodoList.dto.todo.TodoGroupedResponseDto;
 import NotModified.TodoList.repository.CategoryRepository;
@@ -24,9 +25,7 @@ public class GroupTodoService {
     private final LessonRepository lessonRepository;
 
     public List<TodoGroupedResponseDto> findDateList(TodoDateRequestDto todoDto) {
-        List<Todo> todos = todoRepository.findByDate(todoDto.getTodoDate(), todoDto.getUserId());
-        Lesson lesson = lessonRepository.findByTodoDate(todoDto.getTodoDate());
-        String lessonContent = lesson == null ? "" : lesson.getContent();
+        List<Todo> todos = todoRepository.findByDate(todoDto.getUserId(), todoDto.getTodoDate());
 
         Map<String, TodoGroupedResponseDto> groupedMap = new LinkedHashMap<>();
 
@@ -40,7 +39,7 @@ public class GroupTodoService {
 
             // key 값이 존재하지 않으면 새로운 그룹화 배열을 생성
             groupedMap.computeIfAbsent(key, k -> new TodoGroupedResponseDto(categoryId,
-                    todo.getCategory().getName(), todo.getCategory().getColor(), todo.getCategory().getIsActive(), lessonContent));
+                    todo.getCategory().getName(), todo.getCategory().getColor(), todo.getCategory().getIsActive()));
 
             // 해당하는 categoryName 그룹에 Todo 객체를 추가
             groupedMap.get(key).addTodo(todo);

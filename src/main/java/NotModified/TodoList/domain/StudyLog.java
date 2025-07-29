@@ -24,8 +24,20 @@ public class StudyLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "todo_id", nullable = false)
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
+    @Column(name = "todo_id")
     private Long todoId;
+
+    @Column(name = "todo_title")
+    private String todoTitle;
+
+    @Column(name = "category_name")
+    private String categoryName;
+
+    @Column(name = "category_color")
+    private String categoryColor;
 
     @Column(name = "start_time")
     private LocalDateTime startTime;
@@ -38,5 +50,8 @@ public class StudyLog {
 
     @Column(name = "duration", nullable = false)
     private Integer duration;
+
+    @Column(name = "is_manual")
+    private Boolean isManual;
 }
 
