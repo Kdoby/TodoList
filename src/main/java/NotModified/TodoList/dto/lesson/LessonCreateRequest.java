@@ -14,5 +14,6 @@ import java.time.LocalDate;
 public class LessonCreateRequest {
     private String userId;
     private String content;
-    private LocalDate todoDate;
+    private String contentWriter;
+    private LocalDate lessonDate;
 }
