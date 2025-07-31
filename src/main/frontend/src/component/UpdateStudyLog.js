@@ -3,9 +3,8 @@ import axios from "axios";
 
 export default function UpdateStudyLog ({userId, selectedDate, log, onUpdate, isOpen, onClose}) {
     const [todoList, setTodoList] = useState([]);
-    const [todo, setTodo] = useState(log.todoTitle);
-    const [startTime, setStartTime] = useState(log.startTime);
-    const [endTime, setEndTime] = useState(log.endTime);
+    const [startTime, setStartTime] = useState(log.startTime.slice(11,));
+    const [endTime, setEndTime] = useState(log.endTime.slice(11,));
     const todoRef = useRef();
     const startRef = useRef();
     const endRef = useRef();
@@ -31,12 +30,13 @@ export default function UpdateStudyLog ({userId, selectedDate, log, onUpdate, is
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log( `${selectedDate.toISOString().slice(0,10)}T${startTime}:00`);
         try {
             const res = await axios.put(`/api/todo/log/${log.id}`, {
                 userId: userId,
-                logDate: selectedDate,
-                start: startTime,
-                end: endTime
+                logDate: selectedDate.toISOString().slice(0,10),
+                start: `${selectedDate.toISOString().slice(0,10)}T${startTime}`,
+                end: `${selectedDate.toISOString().slice(0,10)}T${endTime}`
             });
             if(res.data.success) {
                 alert(res.data.message);
@@ -82,14 +82,7 @@ export default function UpdateStudyLog ({userId, selectedDate, log, onUpdate, is
                         </div>
                         <div>
                             <span className={"AS_inputLabel"}>TODO &nbsp;&nbsp;| &nbsp;&nbsp;</span>
-                            <select ref={todoRef} value={todo} onChange={(e) => setTodo(e.target.value)} required>
-                                <option value="">기록할 todo를 선택해주세요</option>
-                                {todoList.map((t) => (
-                                    <option key={t.id} value={t}>
-                                        {t.title}
-                                    </option>
-                                ))}
-                            </select>
+                            <span>{log.todoTitle}</span>
                         </div>
                         <div>
                             <label htmlFor="start-time" className={"AS_inputLabel"}>시작시간 &nbsp;&nbsp;| &nbsp;&nbsp;</label>
