@@ -4,8 +4,10 @@ import axios from 'axios';
 const TestTodoList = ({ userName, todayDate, categories, allTodos, setAllTodos }) => {
     const [editingTodoId, setEditingTodoId] = useState(null); // 현재 편집 중인 투두 ID
 
+    // 특정 일자 todo fetch
     const fetchTodos = async () => {
-        console.log("userName: " + userName + ", todayDate: " + todayDate);
+        // console.log("userName: " + userName + ", todayDate: " + todayDate);
+
         if(userName && todayDate) {
             try {
                 const response = await axios.post('/api/todos/list', {
@@ -41,7 +43,7 @@ const TestTodoList = ({ userName, todayDate, categories, allTodos, setAllTodos }
     const editTodo = async (id, title, checked) => {
         try {
             console.log(title, checked);
-            const response = await axios.put(`/api/todos/${id}`, {
+            const response = await axios.put('/api/todos/' + id, {
                 title,
                 isDone: checked
             });

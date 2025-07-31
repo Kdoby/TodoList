@@ -205,7 +205,7 @@ export default function TodoList({ userName, todayDate, fetchTodayDate, setDate 
                 </div>
             </div>
             <div className="three">
-                <Advice />
+                <Advice userName={userName} todayDate={todayDate}/>
             </div>
         </div>
     </div>

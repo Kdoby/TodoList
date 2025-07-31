@@ -51,6 +51,7 @@ public class LessonApiController {
     }
 
     // lesson 조회
+    // http://localhost:8080/todo/lesson/dodam/2025-07-31
     @GetMapping("/todo/lesson/{userId}/{date}")
     public ResponseEntity<LessonResponse> getLesson(@PathVariable("userId") String userId,
                                                     @PathVariable("date") LocalDate date) {
