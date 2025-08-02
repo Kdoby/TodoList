@@ -5,28 +5,56 @@ import axios from 'axios';
 
 export default function Advice({ userName, todayDate }){
     const [adv, setAdv] = useState('');
-    const [saveAdv, setSaveAdv] = useState(false);
+    const [saveAdvState, setSaveAdvState] = useState(false);
 
     // lesson 조회
     const initialAdvSetting = async () => {
         if(!todayDate) { return; }
+
         try{
             const response = await axios.get(`/api/todo/lesson/${userName}/${todayDate}`);
-            setAdv(response.data);
+
+            if(!response.data.content){
+                console.log(response.data);
+                newAdvice();
+                setSaveAdvState(false);
+            } else{
+                console.log(response.data);
+                setAdv(response.data);
+                setSaveAdvState(true);
+            }
         } catch (e) {
             console.error("fail fetch: ", e);
         }
     }
 
     // lesson 등록
-//    const setAdv = async () => {
-//        try{
-//            const response = await axios.post('api/todo/lesson');
-//            setAdv(response.data);
-//        } catch (e) {
-//            console.error("fail fetch: ", e);
-//        }
-//    }
+    const saveAdv = async () => {
+        if(!adv.message) { return; }
+        try{
+            const response = await axios.post('api/todo/lesson', {
+                userId: userName,
+                content: adv.content,
+                contentWriter: adv.contentWriter,
+                lessonDate: todayDate
+            });
+
+            setSaveAdvState(true);
+        } catch (e) {
+            console.error("fail fetch: ", e);
+        }
+    }
+
+    // lesson 삭제
+    const deleteAdv = async () => {
+        try{
+            const response = await axios.post('api/todo/lesson');
+            setAdv(response.data);
+        } catch (e) {
+            console.error("fail fetch: ", e);
+        }
+    }
+
 
     // 새 lesson 랜덤으로
     const newAdvice = async () => {
@@ -38,13 +66,12 @@ export default function Advice({ userName, todayDate }){
         }
     }
 
-    const selectAdvice = () => {
-    };
-
     useEffect(() => {
         console.log("todayDate: " + todayDate);
+
         initialAdvSetting();
     }, [todayDate]);
+
 
     return (
         <div style={{ width: "100%",
@@ -56,11 +83,24 @@ export default function Advice({ userName, todayDate }){
             <div style={{margin:"0 10px"}}>
                 <img src="/images/random.png"
                      onClick={() => newAdvice()} />
+
                 &nbsp;&nbsp;&nbsp;
-                <img src="/images/star.png"
-                     onClick={() => selectAdvice()}/>
+
+                {!saveAdvState ? (
+                    <img src="/images/star.png"
+                         onClick={() => saveAdv()}/>
+                ) : (
+                    <img src="/images/coloredStar.png"
+                         onClick={(e) => deleteAdv()}/>
+                )}
             </div>
-            <div style={{ fontSize:"30px", textAlign:"center", margin:"20px"}}><span>{adv.message}</span><br /><span style={{fontSize:"20px"}}>-{adv.author}</span></div>
+
+            <div style={{ fontSize:"30px", textAlign:"center", margin:"20px"}}
+                 key={adv.id}>
+                <span>{adv.content}</span>
+                <br />
+                <span style={{fontSize:"20px"}}>-{adv.contentWriter}</span>
+            </div>
 
         </div>
     );
