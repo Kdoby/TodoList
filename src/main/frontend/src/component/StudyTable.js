@@ -18,11 +18,19 @@ export default function StudyTable({list}) {
                 </>
             ))}
             {list.map((item) => {
-                const startH = parseInt(item.startTime.slice(11, 13));
+                let startH = parseInt(item.startTime.slice(11, 13));
                 const startM = parseInt(item.startTime.slice(14, 16));
-                const endH = parseInt(item.endTime.slice(11, 13));
+                let endH = parseInt(item.endTime.slice(11, 13));
                 const endM = parseInt(item.endTime.slice(14, 16));
-
+                
+                // 자정을 넘긴 기록 시간처리
+                if (startH >= 1 && startH <=5) {
+                    startH += 24;
+                }
+                if (endH >= 1 && endH <=5) {
+                    endH += 24;
+                }
+                
                 let left = 30 + startM * 3.5;
                 let width = ((endH - startH) * 60 + (endM - startM)) * 3.5;
                 let top = (startH - 6) * CELL_HEIGHT;

@@ -30,14 +30,36 @@ export default function AddStudyLog ({userId, selectedDate, onAdd, isOpen, close
         fetchTodoList();
     }, [userId, selectedDate]);
 
+    // time 정보에서 시간만 추출
+    const parseTimeHour = (timeStr) => {
+      const hour = parseInt(timeStr.split(':')[0], 10);
+      return hour;
+    };
+
+    // 하루를 넘어가는 기록인지 확인(1시~5시59분)
+    const shouldAddOneDay = (timeStr) => {
+        const hour = parseTimeHour(timeStr);
+        return hour >= 1 && hour <=5;
+    };
+
+    // 하루를 더하는 함수
+    const addOneDay = (date) => {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + 1);
+        return newDate;
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const startDate = shouldAddOneDay(startTime) ? addOneDay(selectedDate) : selectedDate;
+            const endDate = shouldAddOneDay(endTime) ? addOneDay(selectedDate) : selectedDate;
+
             const res = await axios.post('/api/todo/log', {
                 userId: userId,
                 todoId: todo,
-                startTime: `${selectedDate.toISOString().slice(0,10)}T${startTime}:00`,
-                endTime: `${selectedDate.toISOString().slice(0,10)}T${endTime}:00`,
+                startTime: `${startDate.toISOString().slice(0,10)}T${startTime}:00`,
+                endTime: `${endDate.toISOString().slice(0,10)}T${endTime}:00`,
                 isManual: true
             });
             if (res.data.success) {
