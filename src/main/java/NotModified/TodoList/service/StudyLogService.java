@@ -8,6 +8,7 @@ import NotModified.TodoList.dto.studyLog.StudyLogUpdateRequest;
 import NotModified.TodoList.repository.StudyLogRepository;
 import NotModified.TodoList.repository.TodoRepository;
 import NotModified.TodoList.util.CustomDateUtils;
+import NotModified.TodoList.util.DurationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +65,8 @@ public class StudyLogService {
             // end 가 다음날 오전 6시를 넘어간 경우(즉, 다음 날이 넘어서까지 공부한 경우), 다음 start 는 nextSplit 이 됨
             LocalDateTime splitEnd = end.isBefore(nextSplit) ? end : nextSplit;
 
-            int durationMinutes = (int) Duration.between(start, splitEnd).toMinutes();
+            // 초단위로 기록 저장
+            int durationSeconds = (int) Duration.between(start, splitEnd).toSeconds();
 
             StudyLog studyLog = StudyLog.builder()
                     .userId(dto.getUserId())
@@ -75,12 +77,12 @@ public class StudyLogService {
                     .startTime(start)
                     .endTime(splitEnd)
                     .logDate(CustomDateUtils.getCustomLogDate(start))
-                    .duration(durationMinutes)
+                    .duration(durationSeconds)
                     .isManual(dto.getIsManual())
                     .build();
 
             // 해당 todo 의 total_duration 업데이트
-            Integer newDuration = todo.getTotalDuration() + durationMinutes;
+            Integer newDuration = todo.getTotalDuration() + durationSeconds;
             todo.setTotalDuration(newDuration);
 
             studyLogRepository.save(studyLog);
@@ -116,7 +118,7 @@ public class StudyLogService {
         }
 
         int originalDuration = studyLog.getDuration();
-        int newDuration = (int) Duration.between(start, end).toMinutes();
+        int newDuration = (int) Duration.between(start, end).getSeconds();
 
         // todo 누적 시간 변경
         todoRepository.findById(studyLog.getTodoId()).ifPresent(t -> {
