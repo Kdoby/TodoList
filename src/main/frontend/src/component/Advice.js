@@ -11,10 +11,12 @@ export default function Advice({ userName, todayDate }){
     const initialAdvSetting = async () => {
         if(!todayDate) { return; }
 
+        console.log(saveAdvState);
+
         try{
             const response = await axios.get(`/api/todo/lesson/${userName}/${todayDate}`);
 
-            if(!response.data.content){
+            if(!response.data.id){
                 console.log(response.data);
                 newAdvice();
                 setSaveAdvState(false);
@@ -30,9 +32,10 @@ export default function Advice({ userName, todayDate }){
 
     // lesson 등록
     const saveAdv = async () => {
-        if(!adv.message) { return; }
+        if(!adv.content) { return; }
+
         try{
-            const response = await axios.post('api/todo/lesson', {
+            const response = await axios.post('/api/todo/lesson', {
                 userId: userName,
                 content: adv.content,
                 contentWriter: adv.contentWriter,
@@ -47,9 +50,12 @@ export default function Advice({ userName, todayDate }){
 
     // lesson 삭제
     const deleteAdv = async () => {
+        if(!adv.content) { return; }
+
         try{
-            const response = await axios.post('api/todo/lesson');
-            setAdv(response.data);
+            const response = await axios.delete(`/api/todo/lesson/${adv.id}`);
+            setSaveAdvState(false);
+            newAdvice();
         } catch (e) {
             console.error("fail fetch: ", e);
         }
@@ -60,7 +66,10 @@ export default function Advice({ userName, todayDate }){
     const newAdvice = async () => {
         try {
             const response = await axios.get('https://korean-advice-open-api.vercel.app/api/advice');
-            setAdv(response.data);
+            setAdv({
+                content: response.data.message,
+                contentWriter: response.data.author
+            });
         } catch (e) {
             console.error("fail fetch: ", e);
         }
@@ -72,6 +81,10 @@ export default function Advice({ userName, todayDate }){
         initialAdvSetting();
     }, [todayDate]);
 
+    useEffect(() => {
+        console.log(adv);
+    }, [adv]);
+
 
     return (
         <div style={{ width: "100%",
@@ -81,22 +94,24 @@ export default function Advice({ userName, todayDate }){
                    }}
         >
             <div style={{margin:"0 10px"}}>
-                <img src="/images/random.png"
-                     onClick={() => newAdvice()} />
-
-                &nbsp;&nbsp;&nbsp;
-
                 {!saveAdvState ? (
-                    <img src="/images/star.png"
-                         onClick={() => saveAdv()}/>
+                    <>
+                        <img src="/images/star.png"
+                             onClick={() => saveAdv()}
+                        />
+                        <img src="/images/random.png"
+                             onClick={() => newAdvice()} />
+                    </>
                 ) : (
                     <img src="/images/coloredStar.png"
                          onClick={(e) => deleteAdv()}/>
                 )}
+
             </div>
 
             <div style={{ fontSize:"30px", textAlign:"center", margin:"20px"}}
-                 key={adv.id}>
+                 key={adv.id}
+            >
                 <span>{adv.content}</span>
                 <br />
                 <span style={{fontSize:"20px"}}>-{adv.contentWriter}</span>
