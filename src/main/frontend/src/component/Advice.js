@@ -41,8 +41,13 @@ export default function Advice({ userName, todayDate }){
                 contentWriter: adv.contentWriter,
                 lessonDate: todayDate
             });
+            setAdv(prev => ({
+                ...prev,
+                id: response.data.lessonId
+            }));
 
             setSaveAdvState(true);
+            console.log("WWWWWWWWWWWWWW");
         } catch (e) {
             console.error("fail fetch: ", e);
         }
