@@ -19,11 +19,12 @@ public class LessonApiController {
     // lesson 등록
     @PostMapping("/todo/lesson")
     public ResponseEntity<?> createLesson(@RequestBody LessonCreateRequest request) {
-        lessonService.registerLesson(request);
+        Long result = lessonService.registerLesson(request);
 
         return ResponseEntity.ok(Map.of(
                 "success", true,
-                "message", "lesson 등록 성공"
+                "message", "lesson 등록 성공",
+                "lessonId", result
         ));
     }
 
