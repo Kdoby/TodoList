@@ -1,8 +1,8 @@
 import TodoListPage from './component/TodoListPage';
+import StudyLogPage from "./component/StudyLogPage";
 
 import React, {useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import StudyLogPage from "./component/StudyLogPage";
 
 
 
@@ -12,6 +12,7 @@ function App() {
     <div>
         <StudyLogPage />
         <br /><br />
+        <TodoListPage />
     </div>
     );
 }

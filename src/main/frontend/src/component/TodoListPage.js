@@ -7,7 +7,7 @@ import React, { useState, useEffect, useRef } from "react";
 export default function Test(){
     const timeAttackRef = useRef(null);
     const todoListRef = useRef(null);
-    const [userName, setUserName] = useState('dodam');
+    const [userName, setUserName] = useState('test1');
     const [scrollLocation, setScrollLocation] = useState('down');
     const [todayDate, setDate] = useState('');  // 투두 전체적인 것에 대한 날짜
 
@@ -26,6 +26,7 @@ export default function Test(){
     useEffect(() => {
         // 오늘 날짜 fetch
         fetchTodayDate();
+
         // 페이지가 처음 렌더링되면 Component 2로 스크롤
         const timer = setTimeout(() => {
             todoListRef.current?.scrollIntoView({ behavior: "instant" });
@@ -52,10 +53,6 @@ export default function Test(){
         }
     };
 
-
-    useEffect(() => {
-        setDate(todayDate);
-    }, [todayDate]);
 
 
     return (
@@ -86,7 +83,7 @@ export default function Test(){
 
                 <div>
                     UserName : <input type="text"
-                                      defaultValue="dodam"
+                                      defaultValue= {userName}
                                       onChange={(e) => setUserName(e.target.value)}
                                />
                 </div>

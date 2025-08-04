@@ -1,6 +1,7 @@
 package NotModified.TodoList.dto.todo;
 
 import NotModified.TodoList.domain.Todo;
+import NotModified.TodoList.util.DurationUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,10 @@ public class TodoResponseDto {
     private String title;
     private Boolean isDone;
     private LocalDate todoDate;
-    private Integer totalDuration;
+
+    private Integer totalHours;
+    private Integer totalMinutes;
+    private Integer totalSeconds;
 
     public TodoResponseDto(Todo todo) {
         this.id = todo.getId();
@@ -24,6 +28,10 @@ public class TodoResponseDto {
         this.title = todo.getTitle();
         this.isDone = todo.getIsDone();
         this.todoDate = todo.getTodoDate();
-        this.totalDuration = todo.getTotalDuration();
+
+        int seconds = todo.getTotalDuration();
+        this.totalHours = DurationUtils.getHours(seconds);
+        this.totalMinutes = DurationUtils.getMinutes(seconds);
+        this.totalSeconds = DurationUtils.getSeconds(seconds);
     }
 }
