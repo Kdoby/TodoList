@@ -47,7 +47,7 @@ export default function AddStudyLog ({userId, selectedDate, onAdd, isOpen, close
         const newDate = new Date(date);
         newDate.setDate(newDate.getDate() + 1);
         return newDate;
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();

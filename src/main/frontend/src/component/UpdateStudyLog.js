@@ -2,41 +2,41 @@ import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 
 export default function UpdateStudyLog ({userId, selectedDate, log, onUpdate, isOpen, onClose}) {
-    const [todoList, setTodoList] = useState([]);
     const [startTime, setStartTime] = useState(log.startTime.slice(11,));
     const [endTime, setEndTime] = useState(log.endTime.slice(11,));
-    const todoRef = useRef();
     const startRef = useRef();
     const endRef = useRef();
 
-    const fetchTodoList = async () => {
-        try {
-            const response = await axios.post('/api/todos/list', {
-                userId: userId,
-                todoDate: selectedDate.toISOString().slice(0,10)
-            });
-            setTodoList(response.data.data);
-            console.log("투두 리스트 받아오기: ", response.data);
-        } catch(e) {
-            console.error("fail fetch: ", e);
-        }
+    // time 정보에서 시간만 추출
+    const parseTimeHour = (timeStr) => {
+        const hour = parseInt(timeStr.split(':')[0], 10);
+        return hour;
     };
-    useEffect(() => {
-        if(!userId || !selectedDate) {
-            return;
-        }
-        fetchTodoList();
-    }, [userId, selectedDate]);
+
+    // 하루를 넘어가는 기록인지 확인(1시~5시59분)
+    const shouldAddOneDay = (timeStr) => {
+        const hour = parseTimeHour(timeStr);
+        return hour >= 1 && hour <=5;
+    };
+
+    // 하루를 더하는 함수
+    const addOneDay = (date) => {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + 1);
+        return newDate;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log( `${selectedDate.toISOString().slice(0,10)}T${startTime}:00`);
         try {
+            const startDate = shouldAddOneDay(startTime) ? addOneDay(selectedDate) : selectedDate;
+            const endDate = shouldAddOneDay(endTime) ? addOneDay(selectedDate) : selectedDate;
+            console.log( `${startDate.toISOString().slice(0,10)}T${startTime}`);
             const res = await axios.put(`/api/todo/log/${log.id}`, {
                 userId: userId,
-                logDate: selectedDate.toISOString().slice(0,10),
-                start: `${selectedDate.toISOString().slice(0,10)}T${startTime}`,
-                end: `${selectedDate.toISOString().slice(0,10)}T${endTime}`
+                logDate: startDate.toISOString().slice(0,10),
+                start: `${startDate.toISOString().slice(0,10)}T${startTime}`,
+                end: `${endDate.toISOString().slice(0,10)}T${endTime}`
             });
             if(res.data.success) {
                 alert(res.data.message);
