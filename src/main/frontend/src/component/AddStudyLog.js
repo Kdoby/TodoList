@@ -51,6 +51,21 @@ export default function AddStudyLog ({userId, selectedDate, onAdd, isOpen, close
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(!todo) {
+            alert("todo를 선택해주세요.");
+            todoRef.current.focus();
+            return;
+        }
+        if (!startTime) {
+            alert("시작시간을 선택해주세요.");
+            startRef.current.focus();
+            return;
+        }
+        if (!endTime) {
+            alert("종료시간을 선택해주세요.");
+            endRef.current.focus();
+            return;
+        }
         try {
             const startDate = shouldAddOneDay(startTime) ? addOneDay(selectedDate) : selectedDate;
             const endDate = shouldAddOneDay(endTime) ? addOneDay(selectedDate) : selectedDate;

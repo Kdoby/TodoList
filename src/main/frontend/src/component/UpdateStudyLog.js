@@ -28,6 +28,10 @@ export default function UpdateStudyLog ({userId, selectedDate, log, onUpdate, is
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (startTime === log.startTime.slice(11,) && endTime === log.endTime.slice(11,)){
+            alert("수정된 내용이 없습니다.");
+            return;
+        }
         try {
             const startDate = shouldAddOneDay(startTime) ? addOneDay(selectedDate) : selectedDate;
             const endDate = shouldAddOneDay(endTime) ? addOneDay(selectedDate) : selectedDate;
