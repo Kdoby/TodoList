@@ -65,7 +65,7 @@ export default function Test(){
                    아래로 스르륵 이동!
                 </button>
 
-                <TimeAttackMain/>
+                <TimeAttackMain userName={userName} todayDate={todayDate}/>
             </div>
 
             <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
