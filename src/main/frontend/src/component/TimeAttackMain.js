@@ -13,7 +13,7 @@ function StudyTimeInput({allTodos, onStart, userName, todayDate}) {
 
     const handleSubmit = () => {
         const totalMinutes = hour * 60 + minute;
-        if(todo === '') {
+        if(!todo || Array.isArray(todo) && !todo[0]) {
             alert("todo를 선택해주세요");
             todoRef.current?.focus();
             return;
